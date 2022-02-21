@@ -1,0 +1,17 @@
+nelmio_api_doc:
+    areas: # to filter documented routes
+        default:
+            documentation:
+                host: '%env(APP_HOST)%'
+                info:
+                    title: 'api'
+                    description: "api doc"
+                    version: 1.0.0
+                securityDefinitions:
+                    JWT:
+                        type: apiKey
+                        name: Authorization
+                        in: header
+            path_patterns:
+                - ^/api/(?!_)
+#                - ^/api(?!/doc$) # Accepts routes under /api except /api/doc

@@ -1,0 +1,44 @@
+security:
+  enable_authenticator_manager: true
+
+  password_hashers:
+    App\Entity\User:
+      algorithm: auto
+
+  providers:
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: email
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+
+    login:
+      pattern: ^/api/login
+      stateless: true
+      json_login:
+        check_path: /api/login
+        username_path: email
+        success_handler: lexik_jwt_authentication.handler.authentication_success
+        failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+    api:
+      pattern:   ^/api
+      stateless: true
+      jwt: ~
+
+  access_control:
+    - { path: ^/api/register, roles: PUBLIC_ACCESS }
+    - { path: ^/api/login, roles: PUBLIC_ACCESS }
+    - { path: ^/api/doc, roles: PUBLIC_ACCESS }
+    - { path: ^/api/cities, roles: PUBLIC_ACCESS }
+    - { path: ^/api,       roles: PUBLIC_ACCESS }
+#    - { path: ^/api/bilans-twig, roles: PUBLIC_ACCESS }
+#    - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+
+
+  access_decision_manager:
+    strategy: unanimous
+    allow_if_all_abstain: true

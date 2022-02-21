@@ -1,0 +1,15 @@
+jms_serializer:
+    visitors:
+        xml_serialization:
+            format_output: '%kernel.debug%'
+        json_serialization:
+            options:
+                - JSON_UNESCAPED_SLASHES
+                - JSON_HEX_TAG
+
+    default_context:
+        serialization:
+            enable_max_depth_checks: true
+
+    property_naming:
+        id: 'jms_serializer.identical_property_naming_strategy'

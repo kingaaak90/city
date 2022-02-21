@@ -1,0 +1,11 @@
+controllers:
+    resource: '../../src/Controller/'
+    type:     annotation
+    #prefix:   '/blog'
+    #trailing_slash_on_root: false
+
+kernel:
+    resource: ../../src/Kernel.php
+    type: annotation
+
+

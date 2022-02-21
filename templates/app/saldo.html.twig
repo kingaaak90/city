@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Podsumowanie{% endblock %}
+
+{% block body %}
+
+    <table>
+        {% for bilans in bilanses %}
+            <tr>
+                <td>{{ bilans.name }}</td>
+                <td>{{ bilans.amount }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <table>
+        <tr>{{ 'Suma przychodów'|trans|raw }}</tr>
+        <td>{{ incomes }}</td>
+        <tr>{{ 'Suma wydatków'|trans|raw }}</tr>
+        <td>{{ expenses }}</td>
+    </table>
+
+{% endblock %}
+

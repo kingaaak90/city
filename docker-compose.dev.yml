@@ -1,0 +1,61 @@
+version: '3.5'
+
+services:
+
+  nginx:
+    image: nginx:stable
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - target: 80
+        published: 8080
+        protocol: tcp
+        mode: host
+    networks:
+      - app
+    restart: on-failure
+
+  symfony_api:
+    image: cloudplanet/php:8v003
+    #entrypoint: /web/docker/docker-entrypoint-local-dev.sh
+    volumes:
+      - ./:/web:rw
+      #- ./public:/web/public:rw
+      #- ./public/protected:/web/public/protected:rw
+    networks:
+      - app
+    restart: on-failure
+
+  api_db:
+    image: postgres:10.16
+    ports:
+      - 5808:5432
+    environment:
+      POSTGRES_USER: kinga
+      POSTGRES_PASSWORD: kingapass
+      POSTGRES_DB: kingadb
+    volumes:
+      - api_db:/var/lib/postgresql/data
+      #- ./flyway/core/V001__search_path_configuration.sql:/docker-entrypoint-initdb.d/init.sql:rw
+    networks:
+      - app
+
+  swagger:
+    image: swaggerapi/swagger-ui:latest
+    ports:
+      - 7071:8080
+    environment:
+      API_URL: http://localhost:8080/api/doc.json
+
+  mailcatcher:
+    image: yappabe/mailcatcher:latest
+    ports:
+      - 1091:1080
+    networks:
+      - app
+
+networks:
+  app:
+
+volumes:
+  api_db:
